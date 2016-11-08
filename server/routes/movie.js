@@ -1,37 +1,42 @@
 var express = require('express');
 var router = express.Router();
 var Movie=require('../models/movie')
+var obj=[];
+var flag=0;
 /* POST home page. */
 router.route('/add')
   .post(function(req,res)
 {
-    if(req.body){
-        var userVar = new Movie(req.body);
-        console.log("inside if");
-        userVar.save(function(err)
-        {
-            if(err)
-            {
-                console.log("Error");
-                res.send(err);
-            }
-            else {
-                res.json("movie inserted");
-            }
-        });
-    }
+
+                    var userVar = new Movie(req.body);
+                    userVar.Comment="No comments";
+                    JSON.stringify(userVar.Comment);
+                    console.log("inside if");
+                    userVar.save(function(err)
+                    {
+                        if(err)
+                        {
+                            console.log("Error");
+                            res.send(err);
+                        }
+                        else
+                        {
+                            res.json("movie inserted");
+                        }
+                    });
+            
 });
 
 
 router.route('/read')
   .get(function(req,res)
 {
-        getMovies.find({},function(err,docs){
+        Movie.find({},function(err,docs){
             if(err){
                 res.json(err);
             }
             else {
-                res.json({getMovies:docs});
+                res.json(docs);
             }
         })
 });
@@ -47,26 +52,21 @@ Movie.find({ Title: req.body.Title }, function(err, data) {
 });
 
 
-router.route('/update/:title')
-  .put(function(req,res)
-{
-
-
-        getMovies.update({ Title:req.params.title },{ Title: req.body.Title},function(err, user) {
-            if (err)
-            throw err;
-
-
-  // we have the updated user returned to us
-        console.log(user);
-        res.json("updated");
+router.route("/update")
+.put(function(req, res) {
+      Movie.update({imdbID:req.body.imdbID},{Comment:req.body.Comment},function(err){
+        if(err){
+           console.log('error occured');
+        }
+        else{
+              res.send('Movie Updated Successfully');
+        }
 });
 });
-
-router.route('/delete/:title')
+router.route('/delete/:ImdbID')
 .delete(function(req,res)
 {
-    Movie.findOneAndRemove({ Title:req.params.title }, function(err) {
+    Movie.findOneAndRemove({ imdbID:req.params.ImdbID }, function(err) {
   if (err)
   throw err;
 

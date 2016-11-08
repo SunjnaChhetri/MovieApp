@@ -1,8 +1,11 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var {browserHistory,Route,Router,IndexRoute} =require('react-router');
 var Navbar=require('./components/Navbar.js')
 var Childcomp=require('./components/Childcomponent.js')
 var Childcomp2=require('./components/Childcomponent2.js')
+var listfav=require('./components/listfav')
+var Contact=require('./components/contact')
 var Maincomponent = React.createClass({
     getInitialState : function(){
     return{
@@ -32,15 +35,20 @@ clickHand:function(d){
 },
  render:function(){
    return (
-   <div>
+   <div >
    <Navbar/>
-   <h1 > Search Your Movie </h1>
    <Childcomp handleOnClick={this.clickHand} />
    <Childcomp2 chname={this.state.moviearr}/>
+       {this.props.children}
    </div>
    )
  }
 });
 
-ReactDOM.render(<Maincomponent/>,
-document.getElementById('app'));
+ReactDOM.render(
+<Router history={browserHistory}>
+<Route path="/" component={Maincomponent}/>
+<Route path="/ListFav" component={listfav}/>
+<Route path="/Contact" component={Contact}/>
+
+</Router>,document.getElementById('app'));
