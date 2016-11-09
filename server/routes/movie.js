@@ -7,24 +7,37 @@ var flag=0;
 router.route('/add')
   .post(function(req,res)
 {
-
+if(req.body)
+{
+    var obj={'imdbID':req.body.imdbID}
                     var userVar = new Movie(req.body);
                     userVar.Comment="No comments";
                     JSON.stringify(userVar.Comment);
-                    console.log("inside if");
-                    userVar.save(function(err)
+                    Movie.findOne(obj,function(err,data)
+                {
+                    if (data)
                     {
-                        if(err)
+                        res.send("movie already exists");
+                    }
+                    else {
+                        userVar.save(function(err)
                         {
-                            console.log("Error");
-                            res.send(err);
-                        }
-                        else
-                        {
-                            res.json("movie inserted");
-                        }
-                    });
-            
+                            if(err)
+                            {
+                                console.log("Error");
+                                res.send(err);
+                            }
+                            else
+                            {
+                                res.send('movie inserted');
+                            }
+                        });
+
+                    }
+                })
+
+                }
+
 });
 
 
@@ -40,6 +53,8 @@ router.route('/read')
             }
         })
 });
+
+
 router.route('/readone')
 .post(function(req,res){
 Movie.find({ Title: req.body.Title }, function(err, data) {
@@ -72,7 +87,7 @@ router.route('/delete/:ImdbID')
 
   // we have deleted the user
   console.log('User deleted!');
-  res.json("deleted");
+  res.send("deleted");
 });
 });
 

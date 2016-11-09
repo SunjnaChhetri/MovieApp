@@ -26191,7 +26191,7 @@ var MovieDispalyBox = React.createClass({displayName: "MovieDispalyBox",
 
             success: function(data)
             {
-                alert("inserted successfully")
+                alert(data);
 
                 console.log(data);
             }.bind(this),
