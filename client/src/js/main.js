@@ -20,7 +20,14 @@ getMovieData :function(title){
 
    success: function(data)
    {
-this.setState({moviearr:data.Search})
+       if(data.Response=='False')
+       {
+           alert(data.Error)
+       }
+       else {
+           this.setState({moviearr:data.Search})
+
+       }
 
 console.log(data);
    }.bind(this),
