@@ -11,7 +11,9 @@ render:function(){
 
 <ul className="nav navbar-nav navbar-right">
      <li><Link to="/Contact">Contact</Link></li>
-     <li><Link to="/ListFav">My Favourite Movies</Link></li></ul>
+     <li><Link to="/ListFav">My Favourite Movies</Link></li>
+     <li><Link to="/Login">Login</Link></li>
+      <li><Link to="/Logout">Logout</Link></li></ul>
 </div>
 </div>
    </div>

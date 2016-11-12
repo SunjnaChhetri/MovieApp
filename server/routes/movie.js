@@ -5,7 +5,7 @@ var obj=[];
 var flag=0;
 /* POST home page. */
 router.route('/add')
-  .post(function(req,res)
+  .post(isLoggedIn,function(req,res)
 {
 if(req.body)
 {
@@ -42,7 +42,7 @@ if(req.body)
 
 
 router.route('/read')
-  .get(function(req,res)
+  .get(isLoggedIn,function(req,res)
 {
         Movie.find({},function(err,docs){
             if(err){
@@ -68,7 +68,7 @@ Movie.find({ Title: req.body.Title }, function(err, data) {
 
 
 router.route("/update")
-.put(function(req, res) {
+.put(isLoggedIn,function(req, res) {
       Movie.update({imdbID:req.body.imdbID},{Comment:req.body.Comment},function(err){
         if(err){
            console.log('error occured');
@@ -78,16 +78,25 @@ router.route("/update")
         }
 });
 });
+
+
 router.route('/delete/:ImdbID')
-.delete(function(req,res)
+.delete(isLoggedIn,function(req,res)
 {
     Movie.findOneAndRemove({ imdbID:req.params.ImdbID }, function(err) {
   if (err)
+  {
+      res.send("error");
   throw err;
+  }
+  else {
+      // we have deleted the user
+      console.log('User deleted!');
+      res.send("deleted");
 
-  // we have deleted the user
-  console.log('User deleted!');
-  res.send("deleted");
+  }
+
+
 });
 });
 
@@ -107,5 +116,14 @@ cursor=db.collection('moviedetails').find({},{__v:false, _id:false});
    res.json(result);
    });*/
 
+function isLoggedIn(req,res,next){
+    if(req.isAuthenticated())
+    {
+        return next();
 
+    }
+    else {
+        res.json('not authenticated');
+    }
+}
 module.exports = router;

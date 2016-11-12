@@ -2,6 +2,8 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var {browserHistory,Route,Router,IndexRoute} =require('react-router');
 var Navbar=require('./components/Navbar.js')
+var LoginComp=require('./components/login')
+var LogoutComp=require('./components/logout')
 var Childcomp=require('./components/Childcomponent.js')
 var Childcomp2=require('./components/Childcomponent2.js')
 var listfav=require('./components/listfav')
@@ -57,5 +59,6 @@ ReactDOM.render(
 <Route path="/" component={Maincomponent}/>
 <Route path="/ListFav" component={listfav}/>
 <Route path="/Contact" component={Contact}/>
-
+<Route path="/Login" component={LoginComp}/>
+<Route path="/Logout" component={LogoutComp}/>
 </Router>,document.getElementById('app'));

@@ -2,11 +2,39 @@ var should = require("chai").should(),
 // expect = require("chai").expect,
 // assert = require("chai").assert,
 supertest = require("supertest"),
+sinon = require('sinon');
+var expect = require('chai').expect;
 app = require("../bin/www");
-
+var model = require('../models/movie.js');
+var modelStub = sinon.stub(model, 'find');
+var modelStub2 = sinon.stub(model, 'remove');
+var app = require('../app.js');
 var url = supertest("http://localhost:8080/movie");
 
-describe("Testing add movies", function(err){
+
+describe('Test my controller', function(){
+describe('Find items', function(){
+  beforeEach(function(){
+    modelStub.yields(null, [{'itemid': 1, 'itemname': 'goods'}]);
+  });
+  it('should attempt to find items', function(done){
+    url
+      .get('/read')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end(function(err, res){
+        if (err) return done(err);
+        //console.log(res.body);
+        //Enter your assertions here
+        expect(res.body[0].itemname).to.be.equal("goods");
+        done();
+      });
+  });
+});
+
+
+
+describe.skip("Testing add movies", function(err){
  it("should respond", function(done){
    url
    .post("/add")
@@ -26,7 +54,7 @@ describe("Testing add movies", function(err){
 });
 
 
-describe("Testing the update movies", function(err){
+describe.skip("Testing the update movies", function(err){
   it("should handle and send the computed info", function(done){
     url
         .put("/update")
@@ -49,7 +77,7 @@ describe("Testing the update movies", function(err){
 });
 
 
-describe("Testing the read movies", function(err){
+describe.skip("Testing the read movies", function(err){
   it("should handle and send the computed info", function(done){
     url
         .get("/read")
@@ -65,7 +93,7 @@ describe("Testing the read movies", function(err){
 });
 
 
-describe("Testing the delete movies", function(err){
+describe.skip("Testing the delete movies", function(err){
   it("should handle and send the computed info", function(done){
     url
     .delete("/delete/tt4832640")

@@ -26245,7 +26245,9 @@ React.createElement("li", null, React.createElement(Link, {to: "/"}, "MovieAapp"
 
 React.createElement("ul", {className: "nav navbar-nav navbar-right"}, 
      React.createElement("li", null, React.createElement(Link, {to: "/Contact"}, "Contact")), 
-     React.createElement("li", null, React.createElement(Link, {to: "/ListFav"}, "My Favourite Movies")))
+     React.createElement("li", null, React.createElement(Link, {to: "/ListFav"}, "My Favourite Movies")), 
+     React.createElement("li", null, React.createElement(Link, {to: "/Login"}, "Login")), 
+      React.createElement("li", null, React.createElement(Link, {to: "/Logout"}, "Logout")))
 )
 )
    )
@@ -26254,6 +26256,30 @@ React.createElement("ul", {className: "nav navbar-nav navbar-right"},
 });
 module.exports=Navbar;
 },{"react":232,"react-router":81}],239:[function(require,module,exports){
+var React = require('react');
+var {Link}= require('react-router');
+var Navbar = React.createClass({displayName: "Navbar",
+render:function(){
+   return (
+   React.createElement("div", {className: "containerFluid"}, 
+    React.createElement("div", {className: "navbar navbar-default"}, 
+        React.createElement("div", {className: "container-fluid"}, 
+React.createElement("ul", {className: "nav navbar-nav "}, 
+React.createElement("li", null, React.createElement(Link, {to: "/"}, "MovieAapp"))), 
+
+React.createElement("ul", {className: "nav navbar-nav navbar-right"}, 
+     React.createElement("li", null, React.createElement(Link, {to: "/Contact"}, "Contact")), 
+     React.createElement("li", null, React.createElement(Link, {to: "/ListFav"}, "My Favourite Movies")), 
+     React.createElement("li", null, React.createElement(Link, {to: "/Login"}, "Login")), 
+      React.createElement("li", null, React.createElement(Link, {to: "/Logout"}, "Logout")))
+)
+)
+   )
+   )
+ }
+});
+module.exports=Navbar;
+},{"react":232,"react-router":81}],240:[function(require,module,exports){
 var React = require('react');
 var contact = React.createClass({displayName: "contact",
 
@@ -26266,7 +26292,7 @@ var contact = React.createClass({displayName: "contact",
  }
 });
 module.exports=contact;
-},{"react":232}],240:[function(require,module,exports){
+},{"react":232}],241:[function(require,module,exports){
 var React = require('react');
 var favmovieArrayBox= React.createClass({displayName: "favmovieArrayBox",
     getInitialState : function(){
@@ -26352,7 +26378,7 @@ var    updateRender=this.props.updateTemp.bind(null,d);
 });
 
 module.exports=favmovieArrayBox;
-},{"react":232}],241:[function(require,module,exports){
+},{"react":232}],242:[function(require,module,exports){
 var React = require('react');
 var Navbar=require('./Navbar.js')
 var FavmovieArrayBox=require('./favmovieArrayBox.js')
@@ -26436,11 +26462,96 @@ var listfav= React.createClass({displayName: "listfav",
     }
 });
 module.exports=listfav;
-},{"./Navbar.js":238,"./favmovieArrayBox.js":240,"react":232}],242:[function(require,module,exports){
+},{"./Navbar.js":239,"./favmovieArrayBox.js":241,"react":232}],243:[function(require,module,exports){
+var React = require('react');
+var NavBar = require('./NavBar.js');
+var {browserHistory} = require('react-router');
+var login = React.createClass({displayName: "login",
+
+
+    loginFunction : function(){
+
+            var name = this.refs.user.value;
+            alert(name);
+                var pass = this.refs.pass.value;
+                alert(pass);
+
+                var object1 = {"username":name,"password":pass};
+        $.ajax({
+        url:'http://localhost:8080/login',
+        type: 'POST',
+        data: object1,
+           success: function(data)
+           {
+           console.log(data);
+           browserHistory.push('/');
+           }.bind(this),
+           error: function(err)
+           {
+            console.log(err);
+           }.bind(this)
+    });
+},
+
+ render:function(){
+   return (
+   React.createElement("div", null, 
+   React.createElement(NavBar, null), 
+   React.createElement("div", {style: {backgroundColor:'#B2BABB'}, className: "jumbotron text-center"}, 
+   React.createElement("h2", null, "SIGN IN"), 
+  React.createElement("p", null, " UserName : ", React.createElement("input", {type: "text", ref: "user", size: "50", onChange: this.changeName})), React.createElement("p", null), 
+    React.createElement("p", null, "Password : ", React.createElement("input", {type: "password", ref: "pass", size: "50", onChange: this.changePass})), 
+    React.createElement("p", null), 
+    React.createElement("p", null, React.createElement("input", {type: "button", className: "btn btn-success", value: "sign in", onClick: this.loginFunction, size: "50"}))
+
+   )
+   )
+   )
+ }
+});
+module.exports=login;
+},{"./NavBar.js":238,"react":232,"react-router":81}],244:[function(require,module,exports){
+var React = require('react');
+
+var logout = React.createClass({displayName: "logout",
+    componentDidMount : function(){
+        this.logoutFunction();
+    },
+    logoutFunction: function(){
+        $.ajax({
+        url:'http://localhost:8080/logout',
+        type: 'POST',
+
+           success: function(data)
+           {
+           console.log(data);
+
+           }.bind(this),
+           error: function(err)
+           {
+            console.log(err);
+           }.bind(this)
+    });
+},
+ render:function(){
+   return (
+   React.createElement("div", null, 
+    React.createElement(NavBar, null), 
+   React.createElement("div", {style: {backgroundColor:'#B2BABB'}, className: "jumbotron text-center"}, 
+   React.createElement("h2", null, "You have successfully SIGNED OUT")
+   )
+   )
+   )
+ }
+});
+module.exports=logout;
+},{"react":232}],245:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var {browserHistory,Route,Router,IndexRoute} =require('react-router');
 var Navbar=require('./components/Navbar.js')
+var LoginComp=require('./components/login')
+var LogoutComp=require('./components/logout')
 var Childcomp=require('./components/Childcomponent.js')
 var Childcomp2=require('./components/Childcomponent2.js')
 var listfav=require('./components/listfav')
@@ -26495,7 +26606,8 @@ ReactDOM.render(
 React.createElement(Router, {history: browserHistory}, 
 React.createElement(Route, {path: "/", component: Maincomponent}), 
 React.createElement(Route, {path: "/ListFav", component: listfav}), 
-React.createElement(Route, {path: "/Contact", component: Contact})
-
+React.createElement(Route, {path: "/Contact", component: Contact}), 
+React.createElement(Route, {path: "/Login", component: LoginComp}), 
+React.createElement(Route, {path: "/Logout", component: LogoutComp})
 ),document.getElementById('app'));
-},{"./components/Childcomponent.js":235,"./components/Childcomponent2.js":236,"./components/Navbar.js":238,"./components/contact":239,"./components/listfav":241,"react":232,"react-dom":51,"react-router":81}]},{},[242]);
+},{"./components/Childcomponent.js":235,"./components/Childcomponent2.js":236,"./components/Navbar.js":239,"./components/contact":240,"./components/listfav":242,"./components/login":243,"./components/logout":244,"react":232,"react-dom":51,"react-router":81}]},{},[245]);

@@ -2,6 +2,20 @@ var express = require('express');
 var router = express.Router();
 var User=require('../models/users');
 
+
+router.route('/read')
+  .get(function(req,res)
+{
+        User.find({},function(err,docs){
+            if(err){
+                res.json(err);
+            }
+            else {
+                res.json(docs);
+            }
+        })
+});
+
 /* GET users listing. */
 router.route('/add')
   .post(function(req,res)
@@ -17,8 +31,8 @@ router.route('/add')
                 res.send(err);
             }
             else {
-                console.log("hgghg");
-                res.json("user inserted");
+                console.log("user inserted");
+                res.send("user inserted");
             }
         });
     }
