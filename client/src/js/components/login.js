@@ -34,8 +34,8 @@ var login = React.createClass({
    <NavBar/>
    <div style={{backgroundColor:'#B2BABB'}} className="jumbotron text-center" >
    <h2>SIGN IN</h2>
-  <p> UserName : < input type="text" ref="user"  size="50"  onChange={this.changeName} /></p><p></p>
-    <p>Password : < input type="password" ref="pass" size="50"  onChange={this.changePass} /></p>
+  <p> UserName : < input type="text" ref="user"  size="50" /></p><p></p>
+    <p>Password : < input type="password" ref="pass" size="50"/></p>
     <p></p>
     <p>< input type="button" className="btn btn-success" value="sign in"  onClick={this.loginFunction} size="50"  /></p>
 
